@@ -1,0 +1,7 @@
+openai==1.60.2
+Pillow==11.1.0
+pydantic==2.10.6
+pytesseract==0.3.13
+python-dotenv==1.0.1
+Requests==2.32.3
+streamlit==1.41.1
