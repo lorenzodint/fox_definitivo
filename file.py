@@ -23,6 +23,16 @@ import json
 from datetime import datetime
 import streamlit as st
 
+def ocr_extract(image_path:str ):
+  img = Image.open(image_path)
+  custom_config = r'--oem 3 --psm 6 -l eng+ita'
+  return pytesseract.image_to_string(img, config=custom_config)
+
+def analyze(image_path: str, use_ocr: bool = True):
+  extracted_text = None
+  if use_ocr:
+    extracted_text = ocr_extract(image_path)
+  return extracted_text
 
 
-st.write('prova')
+st.write(extracted_text)
