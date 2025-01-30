@@ -312,7 +312,7 @@ if __name__ == "__main__":
 
     # Esempio con salvataggio automatico
     result = analyze_and_save(
-        image_path="images\page_0_copy.jpg",
+        image_path="images/page_0_copy.jpg",
         output_dir="./analisi-results",
         use_ocr=True
     )
