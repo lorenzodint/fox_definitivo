@@ -35,4 +35,4 @@ def analyze(image_path: str, use_ocr: bool = True):
   return extracted_text
 
 testo = analyze("images/page_0_copy.jpg", True)
-st.write(text)
+st.write(testo)
