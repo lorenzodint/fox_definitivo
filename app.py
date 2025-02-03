@@ -1,6 +1,6 @@
 import streamlit as st
 import view
-from streamlit_navigation_bar import st_navbar
+# from streamlit_navigation_bar import st_navbar
 import requests
 
 import view.demo
