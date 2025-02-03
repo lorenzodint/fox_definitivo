@@ -99,5 +99,7 @@ def login_utente(username, password):
 if __name__ == "__main__":
     st.write('MONGO')
 
-    st.write(cluster.server_info())
     st.write('Login')
+    with st.container(border=True):
+        username = st.text_input(label='Username')
+        password = st.text_input(label='Password', type='password')
