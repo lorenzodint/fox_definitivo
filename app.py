@@ -1,6 +1,5 @@
 import streamlit as st
 import view
-# from streamlit_navigation_bar import st_navbar
 import requests
 
 import view.demo
@@ -34,8 +33,7 @@ for file in files:
     modules[module_name] = namespace
 
 
-# page = st_navbar(["home", "chi siamo", "about"])
-# st.write(page)
+
 
 st.title('App')
 
