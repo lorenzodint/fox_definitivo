@@ -20,10 +20,4 @@ def mostra():
 
     
 
-    if st.button("logout"):
-        st.session_state.chi_loggato = "0"
-        st.rerun()
-        
-    if st.button("demo"):
-        st.session_state.pagina = "demo"
-        st.rerun()
+    
