@@ -1,5 +1,5 @@
 import streamlit as st
-from session import *
+# from session import *
 import mysql.connector as mysql
 from mysql.connector import Error
 import requests
