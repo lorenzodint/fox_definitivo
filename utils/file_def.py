@@ -192,6 +192,7 @@ def analyze_and_save(api: str, image_path: str, output_dir: str = "./output", us
 
     # Analisi GPT-4 Vision
     gpt_response = process_image(
+        api=api,
         image_path=image_path,
         prompt=build_prompt(),
         extracted_text=extracted_text
