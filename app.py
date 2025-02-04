@@ -2,7 +2,9 @@ import streamlit as st
 import view
 import requests
 
+import view.caricamento
 import view.demo
+import view.elaborazione
 import view.home
 import view.login
 import view.register
@@ -33,8 +35,6 @@ for file in files:
     modules[module_name] = namespace
 
 
-
-
 st.title('App')
 
 
@@ -49,6 +49,17 @@ if 'errore' not in st.session_state:
 
 st.session_state.errore = ""
 
+if 'fotocamera' not in st.session_state:
+    st.session_state.fotocamera = False
+if 'documento' not in st.session_state:
+    st.session_state.documento = "pdf"
+if 'caricamento' not in st.session_state:
+    st.session_state.caricamento = ""
+if 'file_path' not in st.session_state:
+    st.session_state.file_path = ""
+if 'risultato' not in st.session_state:
+    st.session_state.risultato = ""
+
 
 # CONTROLLO SE LOGGATO
 if st.session_state.chi_loggato == "0":
@@ -59,15 +70,14 @@ if st.session_state.chi_loggato == "-1":
 # MOSTRA PAGINA CORRENTE
 if st.session_state.pagina == "login":
     view.login.mostra()
-
 if st.session_state.pagina == "home":
     view.home.mostra()
-
 if st.session_state.pagina == "register":
     view.register.mostra()
-
 if st.session_state.pagina == "demo":
     view.demo.mostra()
+if st.session_state.pagina == "elaborazione":
+    view.elaborazione.mostra()
 
 
 c1, c2, c3 = st.columns([1, 4, 1])
