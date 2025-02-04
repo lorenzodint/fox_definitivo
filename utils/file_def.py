@@ -101,8 +101,10 @@ def get_flattened_schema():
     return schema
 
 
-def process_image(image_path: str, prompt: str, extracted_text: str = None) -> dict:
+def process_image(api:str, image_path: str, prompt: str, extracted_text: str = None) -> dict:
     """Analisi combinata OCR + GPT-4 Vision"""
+    client = OpenAI(api_key=api)
+    
     # Codifica immagine
     base64_image = encode_image(image_path)
 
@@ -173,13 +175,16 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-def analyze_and_save(image_path: str, output_dir: str = "./output", use_ocr: bool = True) -> Ordine:
+def analyze_and_save(api: str, image_path: str, output_dir: str = "./output", use_ocr: bool = True) -> Ordine:
     """
     Analizza un'immagine e salva il risultato in JSON
     :param image_path: Percorso locale o URL dell'immagine
     :param output_dir: Cartella di destinazione
     :param use_ocr: Combina OCR+Tesseract per precisione
     """
+    
+
+    
     # Estrazione Contenuto
     extracted_text = None
     if use_ocr:
@@ -308,10 +313,11 @@ if __name__ == "__main__":
     load_dotenv()
     # api = os.getenv("TEST_FOX")
     api = st.secrets['TEST_FOX']
-    client = OpenAI(api_key=api)
+    # client = OpenAI(api_key=api)
 
     # Esempio con salvataggio automatico
     result = analyze_and_save(
+        api=api,
         image_path="images/page_0_copy.jpg",
         output_dir="./analisi-results",
         use_ocr=True
