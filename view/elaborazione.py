@@ -8,9 +8,9 @@ import shutil
 
 def ai_analisi(image_path, output_dir, ocr):
     api = st.secrets['TEST_FOX']
-    client = ai.OpenAI(api_key=api)
 
     result = ai.analyze_and_save(
+        api=api,
         image_path=image_path,
         output_dir=output_dir,
         use_ocr=ocr
