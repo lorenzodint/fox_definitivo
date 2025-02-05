@@ -1,25 +1,28 @@
 import streamlit as st
-import view
 import requests
-
+from pathlib import Path
+######################################################
+import view
+import view.login
 import view.caricamento
 import view.demo
 import view.elaborazione
 import view.home
-import view.login
 import view.register
+import view.risultato
 
 
-st.set_page_config(layout='wide')
+# # Delete all the items in Session state
+# for key in st.session_state.keys():
+#     del st.session_state[key]
+
+st.set_page_config(
+    layout='wide'
+)
 st.write("""<meta name="viewport" content="width=device-width, initial-scale=1.0">""",
          unsafe_allow_html=True)
 
 
-# files = [
-#     st.secrets['FUNZIONI'],
-#     st.secrets['FU'],
-#     st.secrets['HOME'],
-# ]
 files = []
 
 modules = {}
@@ -35,12 +38,13 @@ for file in files:
     modules[module_name] = namespace
 
 
-st.title('App')
-
+Path('document').mkdir(parents=True, exist_ok=True)
+Path('images').mkdir(parents=True, exist_ok=True)
+Path('analisi').mkdir(parents=True, exist_ok=True)
 
 # SESSION STATE PRINCIPALI
 if 'pagina' not in st.session_state:
-    st.session_state.pagina = 'login'
+    st.session_state.pagina = 'home'
 if 'chi_loggato' not in st.session_state:
     st.session_state.chi_loggato = "0"
 if 'errore' not in st.session_state:
@@ -63,21 +67,27 @@ if 'risultato' not in st.session_state:
 
 # CONTROLLO SE LOGGATO
 if st.session_state.chi_loggato == "0":
-    st.session_state.pagina = "login"
+    st.session_state.pagina = "home"
 if st.session_state.chi_loggato == "-1":
     st.session_state.pagina = "register"
+if st.session_state.chi_loggato == "-2":
+    st.session_state.pagina = "login"
+    
+
 
 # MOSTRA PAGINA CORRENTE
 if st.session_state.pagina == "login":
-    view.login.mostra()
+    view.login.vanilla()
 if st.session_state.pagina == "home":
     view.home.mostra()
 if st.session_state.pagina == "register":
-    view.register.mostra()
+    view.register.vanilla()
 if st.session_state.pagina == "demo":
     view.demo.mostra()
 if st.session_state.pagina == "elaborazione":
     view.elaborazione.mostra()
+if st.session_state.pagina == "risultato":
+    view.risultato.mostra()
 
 
 c1, c2, c3 = st.columns([1, 4, 1])
@@ -86,4 +96,4 @@ with c2:
         st.error(st.session_state.errore)
 
 
-st.write(st.session_state)
+# st.write(st.session_state)

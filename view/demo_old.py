@@ -5,26 +5,15 @@ import io
 import os
 import time
 import uuid
-import base64
-
-
-def display_pdf(file):
-    with open(file, "rb") as f:
-        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-
-        pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height:"auto" type="application/pdf"></iframe>'
-
-        st.write(pdf_display, unsafe_allow_html=True)
 
 
 def mostra():
-    with st.container(border=True):
-        with st.sidebar:
-            st.title("menu laterale")
+    with st.sidebar:
+        st.title("menu laterale")
 
-            if st.button("logout"):
-                st.session_state.chi_loggato = "0"
-                st.rerun()
+        if st.button("logout"):
+            st.session_state.chi_loggato = "0"
+            st.rerun()
 
     c1, c2, c3 = st.columns([1, 4, 1])
     with c2:
@@ -42,8 +31,7 @@ def mostra():
                     # st.write("nome file:", caricafile.name)
                     # st.write(bytes_data)
                     st.divider()
-                    # display_pdf()
-                    if st.button("Conferma documento", type="primary"):
+                    if st.button("Conferma documento"):
 
                         save_folder = "documenti/"
                         os.makedirs(save_folder, exist_ok=True)
@@ -70,7 +58,7 @@ def mostra():
                         st.write(
                             "Assicurati che il contenuto della foto sia ben leggibile")
 
-                        if st.button("Conferma foto", type="primary"):
+                        if st.button("Conferma foto"):
                             image = Image.open(io.BytesIO(camera.read()))
                             save_folder = "fotocamera/"  # Cambia con il percorso desiderato
                             os.makedirs(save_folder, exist_ok=True)

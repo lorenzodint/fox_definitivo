@@ -17,11 +17,12 @@ def ai_analisi(image_path, output_dir, ocr):
     )
 
     st.session_state.risultato = result
+    return True
 
 
 def mostra():
 
-    view.caricamento.mostra()
+    # view.caricamento.mostra()
 
     if st.session_state.documento == "pdf":
         utils.pdf_to_img.convert_pdf(st.session_state.file_path, "images/")
@@ -33,7 +34,9 @@ def mostra():
         st.session_state.file_path = new_path
 
     if ai_analisi(st.session_state.file_path, "analisi-results", True):
-        st.write(st.session_state.risultato)
+        st.session_state.pagina = "risultato"
+        st.rerun()
 
     if st.button('login'):
         st.session_state.chi_loggato = "0"
+        st.rerun()

@@ -5,7 +5,6 @@ import json
 import pymongo
 from pymongo import MongoClient
 import bcrypt
-import streamlit_shadcn_ui as ui
 
 
 user = st.secrets['MONGO_USER']
@@ -58,16 +57,29 @@ value = {"password": hashed_pw}
 # collection.create_index([("username" , 1)], unique=True)
 
 
+def registra_utente(username, password):
+
+    # controllo se username gia in uso
+    if Collection_Utenti.find_one({"username": username}):
+        return [False, "username già esistente"]
+
+    # cifratura della password
+    hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    # registrazione utente
+    user_data = {
+        "username": username,
+        "password": hashed_pw
+    }
+
+    try:
+        Collection_Utenti.insert_one(user_data)
+        return [True, "Registrazione avvenuta"]
+    except Exception as e:
+        return [False, f"Errore registrazione: {e}"]
+
+
 def login_utente(username, password):
-    username = username.strip()
-    password = password.strip()
-
-    if username == "" or username == None:
-        return [False, "Il campo username non può essere vuoto"]
-
-    if password == "" or password == None:
-        return [False, "Il campo password non può essere vuoto"]
-
     username = username.strip()
     password = password.strip()
 
@@ -94,65 +106,29 @@ def login_utente(username, password):
 
 def mostra():
     # st.session_state.errore = ""
+    
+    c1, c2, c3 = st.columns([1, 4, 1], vertical_alignment="center")
 
-    col1, col2, col3 = st.columns([1, 3, 1], vertical_alignment="center")
-
-    with col2:
-        with st.container(border=True):
-            st.header("Login")
-            username = ui.input(
-                type="text", placeholder="Username", key="input_username")
-            password = ui.input(
-                type="password", placeholder="Password", key="input_password")
-
-            c1, c2, c3 = st.columns([2, 0.1, 1])
-            with c1:
-                accedi = ui.button(
-                    text="Accedi", variant="default", key="pulsante_accedi")
-                if accedi:
-                    loginUtente = login_utente(
-                        username=username, password=password)
-                    if loginUtente[0]:
-                        st.session_state.chi_loggato = loginUtente[2]
-                        st.session_state.pagina = "demo"
-                        st.rerun()
-                    else:
-                        st.session_state.errore = loginUtente[1]
-
-            with c3:
-                registrazione = ui.button(
-                    text="Non hai un account?", variant="outline", key="pulsante_vai_registrazione")
-                if registrazione:
-                    st.session_state.chi_loggato = "-1"
-                    st.rerun()
-
-
-def vanilla():
-    c1, c2, c3 = st.columns([1, 3, 1])
     with c2:
         with st.container(border=True):
             st.header("Login")
-            username = st.text_input(label="",
-                                     placeholder="Username", key="login_username")
-            password = st.text_input(label="",
-                                     placeholder="Password", key="login_password", type="password")
+            username = st.text_input(label="Username")
+            password = st.text_input(label="password", type='password')
 
             c1, c2, c3 = st.columns([2, 0.1, 1])
             with c1:
-                accedi = st.button(
-                    label="Accedi", key="login_accedi", type="primary")
+                accedi = st.button("Accedi")
                 if accedi:
                     loginUtente = login_utente(
                         username=username, password=password)
                     if loginUtente[0]:
                         st.session_state.chi_loggato = loginUtente[2]
-                        st.session_state.pagina = "demo"
+                        st.session_state.pagina = "home"
                         st.rerun()
                     else:
                         st.session_state.errore = loginUtente[1]
             with c3:
-                registrazione = st.button(
-                    label="Non hai un account?", key="login_vai_registrazione")
+                registrazione = st.button("Non hai un account?")
                 if registrazione:
                     st.session_state.chi_loggato = "-1"
                     st.rerun()
